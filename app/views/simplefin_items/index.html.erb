@@ -1,17 +1,14 @@
-<% content_for :title, "SimpleFin Connections" %>
+<% content_for :title, "SimpleFin" %>
+<% @breadcrumbs = [["Home", root_path], ["Bank Sync", settings_bank_sync_path], ["SimpleFin", nil]] %>
 
-<div class="space-y-6">
-  <div class="flex items-center justify-between">
-    <div>
-      <h1 class="text-2xl font-bold text-primary">SimpleFin Connections</h1>
-      <p class="text-secondary mt-1">Manage your SimpleFin bank account connections</p>
-    </div>
+<%= settings_section title: "SimpleFin", subtitle: "Manage your SimpleFin bank account connections" do %>
+  <div class="flex items-center justify-end">
 
     <%= render DS::Link.new(
       text: "Add Connection",
       icon: "plus",
       variant: "primary",
-      href: new_simplefin_item_path
+      href: new_settings_bank_sync_simplefin_path
     ) %>
   </div>
 
@@ -34,9 +31,9 @@
         <%= render DS::Link.new(
           text: "Add your first connection",
           variant: "primary",
-          href: new_simplefin_item_path
+          href: new_settings_bank_sync_simplefin_path
         ) %>
       </div>
     </div>
   <% end %>
-</div>
+<% end %>

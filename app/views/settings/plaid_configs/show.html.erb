@@ -1,0 +1,38 @@
+<% content_for :title, "Plaid" %>
+
+<%= settings_section title: "Plaid", subtitle: "Set your Plaid credentials for US/Canada (sandbox or production)." do %>
+  <%= form_with url: plaid_settings_bank_sync_path, method: :patch, local: true, class: "space-y-4" do |f| %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm text-secondary mb-1">Client ID</label>
+        <%= text_field_tag "setting[plaid_client_id]", @plaid_client_id, class: "w-full rounded-md bg-container border border-primary px-3 py-2" %>
+      </div>
+      <div>
+        <label class="block text-sm text-secondary mb-1">Secret</label>
+        <%= password_field_tag "setting[plaid_secret]", @plaid_secret, class: "w-full rounded-md bg-container border border-primary px-3 py-2" %>
+      </div>
+      <div>
+        <label class="block text-sm text-secondary mb-1">Environment</label>
+        <%= select_tag "setting[plaid_env]", options_for_select([ ["sandbox", "sandbox"], ["production", "production"] ], @plaid_env || "sandbox"), class: "w-full rounded-md bg-container border border-primary px-3 py-2" %>
+      </div>
+    </div>
+
+    <h2 class="text-lg font-semibold text-primary mt-6">EU (optional)</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm text-secondary mb-1">EU Client ID</label>
+        <%= text_field_tag "setting[plaid_eu_client_id]", @plaid_eu_client_id, class: "w-full rounded-md bg-container border border-primary px-3 py-2" %>
+      </div>
+      <div>
+        <label class="block text-sm text-secondary mb-1">EU Secret</label>
+        <%= password_field_tag "setting[plaid_eu_secret]", @plaid_eu_secret, class: "w-full rounded-md bg-container border border-primary px-3 py-2" %>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <%= render DS::Button.new(text: "Save", icon: "save", type: "submit") %>
+    </div>
+  <% end %>
+<% end %>
+
+

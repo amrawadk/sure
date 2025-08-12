@@ -1,7 +1,6 @@
 <% content_for :title, "Set Up SimpleFin Accounts" %>
 
-<%= render DS::Dialog.new do |dialog| %>
-  <% dialog.with_header(title: "Set Up Your SimpleFin Accounts") do %>
+<%= settings_section title: "Set Up Your SimpleFin Accounts" do %>
     <div class="flex items-center gap-2">
       <%= icon "building-2", class: "text-primary" %>
       <span class="text-primary">Choose the correct account types for your imported accounts</span>
@@ -87,9 +86,8 @@
         <%= render DS::Link.new(
           text: "Cancel",
           variant: "secondary",
-          href: simplefin_items_path
+          href: settings_bank_sync_simplefin_index_path
         ) %>
       </div>
     <% end %>
-  <% end %>
 <% end %>

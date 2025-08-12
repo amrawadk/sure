@@ -67,7 +67,7 @@
             variant: "button",
             text: "Delete",
             icon: "trash-2",
-            href: simplefin_item_path(simplefin_item),
+            href: settings_bank_sync_simplefin_path(simplefin_item),
             method: :delete,
             confirm: CustomConfirm.for_resource_deletion(simplefin_item.name, high_severity: true)
           ) %>
@@ -89,7 +89,7 @@
               text: "Set Up New Accounts",
               icon: "settings",
               variant: "primary",
-              href: setup_accounts_simplefin_item_path(simplefin_item)
+               href: setup_accounts_settings_bank_sync_simplefin_path(simplefin_item)
             ) %>
           </div>
         <% elsif simplefin_item.accounts.empty? %>

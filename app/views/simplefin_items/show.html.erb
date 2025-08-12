@@ -1,23 +1,24 @@
 <% content_for :title, @simplefin_item.name %>
 
-<div class="mb-8">
-  <%= link_to simplefin_items_path, class: "text-secondary hover:text-primary" do %>
-    ← Back to SimpleFin Connections
-  <% end %>
-  <h1 class="text-2xl font-bold mt-2"><%= @simplefin_item.name %></h1>
-  <div class="flex gap-3 mt-4">
+<%= settings_section title: @simplefin_item.name do %>
+  <div class="mb-4">
+    <%= link_to settings_bank_sync_simplefin_index_path, class: "text-secondary hover:text-primary" do %>
+      ← Back to SimpleFin
+    <% end %>
+  </div>
+  <div class="flex gap-3">
     <%= button_to sync_simplefin_item_path(@simplefin_item), method: :post, class: "inline-flex items-center gap-2 px-4 py-2 bg-surface border border-primary rounded-lg text-primary font-medium hover:bg-surface-hover focus:ring-2 focus:ring-primary focus:ring-offset-2" do %>
       <%= icon "refresh-cw", size: "sm" %>
       Sync
     <% end %>
-    <%= button_to simplefin_item_path(@simplefin_item), method: :delete, data: { confirm: "Are you sure?" }, class: "inline-flex items-center gap-2 px-4 py-2 bg-destructive border border-destructive rounded-lg text-white font-medium hover:bg-destructive-hover focus:ring-2 focus:ring-destructive focus:ring-offset-2" do %>
+    <%= button_to settings_bank_sync_simplefin_index_path(@simplefin_item), method: :delete, data: { confirm: "Are you sure?" }, class: "inline-flex items-center gap-2 px-4 py-2 bg-destructive border border-destructive rounded-lg text-white font-medium hover:bg-destructive-hover focus:ring-2 focus:ring-destructive focus:ring-offset-2" do %>
       <%= icon "trash", size: "sm" %>
       Delete
     <% end %>
   </div>
-</div>
+<% end %>
 
-<div class="space-y-6">
+<%= settings_section title: nil do %>
   <% if @simplefin_item.syncing? %>
     <div class="p-4 bg-surface border border-primary rounded-lg">
       <div class="flex items-center">
@@ -102,4 +103,4 @@
       </div>
     </div>
   <% end %>
-</div>
+<% end %>

@@ -1,0 +1,21 @@
+<% content_for :title, "Bank Sync" %>
+
+<%= settings_section title: "Bank Sync", subtitle: "Configure providers used to link your bank accounts." do %>
+  <div class="space-y-3">
+    <% @providers.each do |provider| %>
+      <%= link_to provider[:path], class: "block rounded-lg border border-transparent hover:border-primary bg-surface p-4" do %>
+        <div class="flex items-center gap-3">
+          <%= icon("arrow-right") %>
+          <div>
+            <div class="text-primary font-medium"><%= provider[:name] %></div>
+            <% if provider[:description].present? %>
+              <div class="text-secondary text-sm mt-0.5"><%= provider[:description] %></div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+

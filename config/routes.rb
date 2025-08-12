@@ -57,6 +57,18 @@ Rails.application.routes.draw do
   namespace :settings do
     resource :profile, only: [ :show, :destroy ]
     resource :preferences, only: :show
+    resource :bank_sync, only: :show, controller: "bank_syncs" do
+      get :plaid, to: "plaid_configs#show"
+      patch :plaid, to: "plaid_configs#update"
+      get :lunch_flow, to: "lunch_flow#show"
+      resources :simplefin, controller: "/simplefin_items", path: "simplefin", only: %i[index new create show destroy] do
+        member do
+          post :sync
+          get :setup_accounts
+          post :complete_account_setup
+        end
+      end
+    end
     resource :hosting, only: %i[show update] do
       delete :clear_cache, on: :collection
     end
@@ -251,13 +263,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :simplefin_items, only: %i[index new create show destroy] do
-    member do
-      post :sync
-      get :setup_accounts
-      post :complete_account_setup
-    end
-  end
+  # simplefin routes moved under settings/bank_sync/simplefin
 
   namespace :webhooks do
     post "plaid"

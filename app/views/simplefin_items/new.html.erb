@@ -1,12 +1,11 @@
 <% content_for :title, "Add SimpleFin Connection" %>
+<% @breadcrumbs ||= [["Home", root_path], ["Bank Sync", settings_bank_sync_path], ["SimpleFin", settings_bank_sync_simplefin_index_path], ["Add Connection", nil]] %>
 
-<%= render DS::Dialog.new do |dialog| %>
-  <% dialog.with_header(title: "Add SimpleFin Connection") %>
-  <% dialog.with_body do %>
+<%= settings_section title: "Add SimpleFin Connection" do %>
     <% if @error_message.present? %>
       <%= render DS::Alert.new(message: @error_message, variant: :error) %>
     <% end %>
-    <%= styled_form_with model: @simplefin_item, local: true, data: { turbo: false }, class: "flex flex-col gap-4 justify-between grow text-primary" do |form| %>
+    <%= styled_form_with model: @simplefin_item, url: settings_bank_sync_simplefin_index_path, local: true, data: { turbo: false }, class: "flex flex-col gap-4 justify-between grow text-primary" do |form| %>
       <div class="grow space-y-2">
         <%= form.text_area :setup_token,
               label: "SimpleFin Setup Token",
@@ -42,5 +41,4 @@
 
       <%= form.submit "Add Connection" %>
     <% end %>
-  <% end %>
 <% end %>

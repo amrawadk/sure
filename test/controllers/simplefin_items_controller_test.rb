@@ -32,14 +32,14 @@ class SimplefinItemsControllerTest < ActionDispatch::IntegrationTest
       delete simplefin_item_url(@simplefin_item)
     end
 
-    assert_redirected_to simplefin_items_path
+    assert_redirected_to settings_bank_sync_simplefin_index_path
     @simplefin_item.reload
     assert @simplefin_item.scheduled_for_deletion?
   end
 
   test "should sync simplefin item" do
     post sync_simplefin_item_url(@simplefin_item)
-    assert_redirected_to simplefin_item_path(@simplefin_item)
+    assert_redirected_to settings_bank_sync_simplefin_index_path(@simplefin_item)
     assert_equal "Sync started", flash[:notice]
   end
 end

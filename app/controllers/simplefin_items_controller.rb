@@ -1,9 +1,10 @@
 class SimplefinItemsController < ApplicationController
+  layout "settings", only: %i[index new show setup_accounts]
   before_action :set_simplefin_item, only: [ :show, :destroy, :sync, :setup_accounts, :complete_account_setup ]
 
   def index
     @simplefin_items = Current.family.simplefin_items.active.ordered
-    render layout: "settings"
+    # breadcrumbs handled in view for consistency with settings layout
   end
 
   def show
@@ -11,6 +12,7 @@ class SimplefinItemsController < ApplicationController
 
   def new
     @simplefin_item = Current.family.simplefin_items.build
+    @breadcrumbs = [["Home", root_path], ["Bank Sync", settings_bank_sync_path], ["SimpleFin", settings_bank_sync_simplefin_index_path], ["Add Connection", nil]]
   end
 
   def create
@@ -24,7 +26,7 @@ class SimplefinItemsController < ApplicationController
         item_name: "SimpleFin Connection"
       )
 
-      redirect_to simplefin_items_path, notice: "SimpleFin connection added successfully! Your accounts will appear shortly as they sync in the background."
+      redirect_to settings_bank_sync_simplefin_index_path, notice: "SimpleFin connection added successfully! Your accounts will appear shortly as they sync in the background."
     rescue ArgumentError, URI::InvalidURIError
       render_error("Invalid setup token. Please check that you copied the complete token from SimpleFin Bridge.", setup_token)
     rescue Provider::Simplefin::SimplefinError => e
@@ -43,12 +45,12 @@ class SimplefinItemsController < ApplicationController
 
   def destroy
     @simplefin_item.destroy_later
-    redirect_to simplefin_items_path, notice: "SimpleFin connection will be removed"
+    redirect_to settings_bank_sync_simplefin_index_path, notice: "SimpleFin connection will be removed"
   end
 
   def sync
     @simplefin_item.sync_later
-    redirect_to simplefin_item_path(@simplefin_item), notice: "Sync started"
+    redirect_to settings_bank_sync_simplefin_path(@simplefin_item), notice: "Sync started"
   end
 
   def setup_accounts
@@ -118,7 +120,7 @@ class SimplefinItemsController < ApplicationController
     # Schedule account syncs for the newly created accounts
     @simplefin_item.schedule_account_syncs
 
-    redirect_to simplefin_items_path, notice: "SimpleFin accounts have been set up successfully!"
+    redirect_to settings_bank_sync_simplefin_index_path, notice: "SimpleFin accounts have been set up successfully!"
   end
 
   private
@@ -134,6 +136,8 @@ class SimplefinItemsController < ApplicationController
     def render_error(message, setup_token = nil)
       @simplefin_item = Current.family.simplefin_items.build(setup_token: setup_token)
       @error_message = message
+      # Ensure settings breadcrumbs show correctly when rendering :new from create errors
+      @breadcrumbs = [["Home", root_path], ["Bank Sync", settings_bank_sync_path], ["SimpleFin", settings_bank_sync_simplefin_index_path], ["Add Connection", nil]]
       render :new, status: :unprocessable_entity
     end
 end
